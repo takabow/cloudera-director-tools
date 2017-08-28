@@ -60,7 +60,7 @@ sudo rm "/opt/cloudera/parcel-repo/${PARCEL_NAME}.shacheck"
 sudo ln "/opt/cloudera/parcel-repo/${PARCEL_NAME}" "/opt/cloudera/parcel-cache/${PARCEL_NAME}"
 sudo chown -R cloudera-scm:cloudera-scm /opt/cloudera
 
-if [ "$PREEXTRACT_PARCEL" = true ]
+if [ "${PREEXTRACT_PARCEL}" = true ]
 then
     echo "Preextracting parcels..."
     sudo tar zxf "/opt/cloudera/parcel-repo/${PARCEL_NAME}" -C "/opt/cloudera/parcels"
