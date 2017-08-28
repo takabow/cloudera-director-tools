@@ -25,7 +25,7 @@
         "source_ami": "{{user `ami`}}",
         "instance_type": "m3.xlarge",
         "ssh_username": "{{user `ssh_username`}}",
-        "ami_name": "{{user `ami_prefix`}}",
+        "ami_name": "{{user `ami_prefix`}} {{timestamp}}",
         "ami_description": "{{user `ami_description`}}",
         "ami_virtualization_type": "{{user `ami_virtualization_type`}}",
         "ssh_timeout": "10m",

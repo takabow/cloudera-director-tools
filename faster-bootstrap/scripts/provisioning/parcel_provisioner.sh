@@ -44,7 +44,7 @@ sudo mkdir -p /opt/cloudera/parcels /opt/cloudera/parcel-repo /opt/cloudera/parc
 PARCEL_NAME="${PARCEL_URL##*/}"
 PARCEL_BASE_NAME="${PARCEL_NAME%%-*}"
 
-echo "Downloading parcel from $PARCEL_URL"
+echo "Downloading parcel from ${PARCEL_URL}"
 sudo curl -s -S "${PARCEL_URL}" -o "/opt/cloudera/parcel-repo/${PARCEL_NAME}"
 sudo curl -s -S "${PARCEL_URL}.sha1" -o "/opt/cloudera/parcel-repo/${PARCEL_NAME}.sha1"
 sudo cp "/opt/cloudera/parcel-repo/${PARCEL_NAME}.sha1" "/opt/cloudera/parcel-repo/${PARCEL_NAME}.sha"
