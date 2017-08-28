@@ -42,34 +42,31 @@ sudo useradd -r cloudera-scm
 sudo mkdir -p /opt/cloudera/parcels /opt/cloudera/parcel-repo /opt/cloudera/parcel-cache
 
 PARCEL_NAME="${PARCEL_URL##*/}"
+PARCEL_BASE_NAME="${PARCEL_NAME%%-*}"
 
-echo "Downloading parcel from $PARCEL_URL"
-sudo curl -s -S "${PARCEL_URL}" -o "/opt/cloudera/parcel-repo/$PARCEL_NAME"
-sudo curl -s -S "${PARCEL_URL}.sha1" -o "/opt/cloudera/parcel-repo/$PARCEL_NAME.sha1"
-sudo cp "/opt/cloudera/parcel-repo/$PARCEL_NAME.sha1" "/opt/cloudera/parcel-repo/$PARCEL_NAME.sha"
+echo "Downloading parcel from ${PARCEL_URL}"
+sudo curl -s -S "${PARCEL_URL}" -o "/opt/cloudera/parcel-repo/${PARCEL_NAME}"
+sudo curl -s -S "${PARCEL_URL}.sha1" -o "/opt/cloudera/parcel-repo/${PARCEL_NAME}.sha1"
+sudo cp "/opt/cloudera/parcel-repo/${PARCEL_NAME}.sha1" "/opt/cloudera/parcel-repo/${PARCEL_NAME}.sha"
 
 echo "Verifying parcel checksum"
-sudo sed "s/$/  ${PARCEL_NAME}/" "/opt/cloudera/parcel-repo/$PARCEL_NAME.sha1" |
-  sudo tee "/opt/cloudera/parcel-repo/$PARCEL_NAME.shacheck" > /dev/null
-if ! eval "cd /opt/cloudera/parcel-repo && sha1sum -c \"$PARCEL_NAME.shacheck\""; then
+sudo sed "s/$/  ${PARCEL_NAME}/" "/opt/cloudera/parcel-repo/${PARCEL_NAME}.sha1" |
+  sudo tee "/opt/cloudera/parcel-repo/${PARCEL_NAME}.shacheck" > /dev/null
+if ! eval "cd /opt/cloudera/parcel-repo && sha1sum -c \"${PARCEL_NAME}.shacheck\""; then
   echo "Checksum verification failed"
   exit 1
 fi
-sudo rm "/opt/cloudera/parcel-repo/$PARCEL_NAME.shacheck"
-
-for parcel_path in /opt/cloudera/parcel-repo/*.parcel
-do
-    sudo ln "$parcel_path" "/opt/cloudera/parcel-cache/$(basename "$parcel_path")"
-done
+sudo rm "/opt/cloudera/parcel-repo/${PARCEL_NAME}.shacheck"
+sudo ln "/opt/cloudera/parcel-repo/${PARCEL_NAME}" "/opt/cloudera/parcel-cache/${PARCEL_NAME}"
 sudo chown -R cloudera-scm:cloudera-scm /opt/cloudera
 
-if [ "$PREEXTRACT_PARCEL" = true ]
+if [ "${PREEXTRACT_PARCEL}" = true ]
 then
-  echo "Preextracting parcels..."
-  sudo tar zxf "/opt/cloudera/parcel-repo/$PARCEL_NAME" -C "/opt/cloudera/parcels"
-  sudo ln -s "$(ls -1 /opt/cloudera/parcels)" /opt/cloudera/parcels/CDH
-  sudo touch /opt/cloudera/parcels/CDH/.dont_delete
-  echo "Done"
+    echo "Preextracting parcels..."
+    sudo tar zxf "/opt/cloudera/parcel-repo/${PARCEL_NAME}" -C "/opt/cloudera/parcels"
+    sudo ln -s "/opt/cloudera/parcels/${PARCEL_NAME%-*}" "/opt/cloudera/parcels/${PARCEL_BASE_NAME}"
+    sudo touch "/opt/cloudera/parcels/${PARCEL_BASE_NAME}/.dont_delete"
+    echo "Done"
 fi
 
 echo "Sync Linux volumes with EBS."
