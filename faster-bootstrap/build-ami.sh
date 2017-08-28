@@ -164,7 +164,7 @@ while getopts "a:dj:J:pPh" opt; do
 done
 shift $((OPTIND - 1))
 
-if [ $# -lt 2 ] || [ $# -gt 6 ]; then
+if [ $# -lt 2 ] || [ $# -gt 5 ]; then
     usage
     exit 1
 fi
@@ -180,9 +180,8 @@ fi
 AWS_REGION=$1
 OS=$2
 NAME=${3-AUTO}
-DESCRIPTION=${4-"Faster Bootstrap for Cloudera Director"}
-CDH_URL=${5-"http://archive.cloudera.com/cdh5/parcels/5.12/"}
-CM_REPO_URL=${6-"http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.12/"}
+CDH_URL=${4-"http://archive.cloudera.com/cdh5/parcels/5.12/"}
+CM_REPO_URL=${5-"http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.12/"}
 
 # Validate OS TBD
 
@@ -267,7 +266,6 @@ PACKER_VARS_ARRAY+=(-var "region=$AWS_REGION" -var "parcel_url=$PARCEL_URL" -var
 PACKER_VARS_ARRAY+=(-var "jdk_repository_url=$JDK_REPO_URL")
 PACKER_VARS_ARRAY+=(-var "ami=$AMI" -var "ami_virtualization_type=$VIRTUALIZATION" -var "ssh_username=$USERNAME" -var "root_device_name=$ROOT_DEVICE_NAME")
 PACKER_VARS_ARRAY+=(-var "ami_prefix=$NAME")
-PACKER_VARS_ARRAY+=(-var "ami_description=$DESCRIPTION")
 PACKER_VARS_ARRAY+=(-var "java_version=$JAVA_VERSION")
 if [[ -n $PRE_EXTRACT ]]; then
   PACKER_VARS_ARRAY+=(-var "preextract_parcel=true")
