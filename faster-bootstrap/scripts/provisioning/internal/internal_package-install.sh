@@ -9,6 +9,7 @@ sudo yum -y install gcc
 sudo yum -y install wget
 sudo yum -y install git
 sudo yum -y install jq
+sudo yum -y install perl
 sudo yum -y install dnsmasq
 
 

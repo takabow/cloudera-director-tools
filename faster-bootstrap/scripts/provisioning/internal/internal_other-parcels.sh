@@ -1,5 +1,6 @@
 #!/bin/sh
 
+sudo yum -y install epel-release
 sudo yum -y install jq
 sudo yum -y install wget 
 
@@ -89,8 +90,8 @@ echo "Done"
 
 
 ### CondaR
-PARCEL_URL="https://bintray.com/chezou/Parcels/download_file?file_path=CONDAR-3.4.1.p0.1.2-el7.parcel"
-PARCEL_MANIFEST_URL="https://bintray.com/chezou/Parcels/download_file?file_path=manifest.json"
+PARCEL_URL="http://se-jp-parcel.s3-website-ap-northeast-1.amazonaws.com/latest/CONDAR-3.4.1.p0.1.2-el7.parcel"
+PARCEL_MANIFEST_URL="http://se-jp-parcel.s3-website-ap-northeast-1.amazonaws.com/latest/manifest.json"
 PARCEL_NAME="CONDAR-3.4.1.p0.1.2-el7.parcel"
 PARCEL_BASE_NAME="CONDAR"
 
